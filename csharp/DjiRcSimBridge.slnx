@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="DjiRcSimBridge.Console/DjiRcSimBridge.Console.csproj" />
+  <Project Path="DjiRcSimBridge.GUI/DjiRcSimBridge.GUI.csproj" />
+  <Project Path="DjiRcSimBridge/DjiRcSimBridge.csproj" />
+</Solution>

@@ -1,0 +1,12 @@
+config.json
+__pycache__/
+*.pyc
+.idea/
+
+# .NET
+csharp/**/bin/
+csharp/**/obj/
+csharp/publish/
+*.user
+*.suo
+.vs/
