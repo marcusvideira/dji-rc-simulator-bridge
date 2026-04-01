@@ -25,113 +25,24 @@ Available in two versions: **Python** (lightweight scripting) and **C# .NET** (n
 | FN button | Left Bumper (LB) |
 | Camera swap button | Y button |
 | RTH button | Back button |
-| Mode: Cinematic | D-pad Left |
-| Mode: Normal | D-pad Up |
-| Mode: Sport | D-pad Right |
+| Mode switch | D-pad (see below) |
+
+### Mode Switch Behavior
+
+The RC-N3 has a 3-position flight mode switch (Cinematic / Normal / Sport). The bridge supports three configurable styles for how this switch maps to Xbox D-pad inputs:
+
+| Style | Behavior |
+|---|---|
+| **Pulse** (default) | Sends a brief D-pad press matching the current mode when the switch changes. Cinematic → D-pad Left, Normal → D-pad Up, Sport → D-pad Right. |
+| **Single** | Sends a brief D-pad Down press on any mode change, regardless of which position. Useful when the simulator only needs a single "next mode" input. |
+| **Hold** | Holds the D-pad direction continuously while the switch is in that position. Cinematic → D-pad Left, Normal → D-pad Up, Sport → D-pad Right. |
+
+The mode style is selected on first launch via an interactive menu and saved to `config.json`. You can change it later by editing the `"mode_style"` value (`"pulse"`, `"single"`, or `"hold"`) or deleting `config.json` to trigger the selector again.
 
 ## Prerequisites
 
 - [ViGEm Bus Driver](https://github.com/nefarius/ViGEmBus/releases) - virtual gamepad driver (one-time install)
 - [DJI Assistant 2 (Consumer Drones Series)](https://www.dji.com/downloads/softwares/dji-assistant-2-consumer-drones-series) - install and close it (provides the USB VCOM driver)
-
----
-
-## C# Version (Recommended)
-
-Native Windows application with two distribution modes. Requires [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) for building, or download the pre-built self-contained `.exe` from Releases (no runtime needed).
-
-### Project Structure
-
-```
-csharp/
-├── DjiRcSimBridge/              # Shared core library
-│   ├── Protocol/                # DUML protocol (checksums, packet parsing)
-│   ├── Serial/                  # Serial reader, port auto-detection
-│   ├── Gamepad/                 # ViGEm Xbox 360 controller output
-│   ├── Bridge/                  # Orchestration + dependency checker
-│   ├── GUI/                     # WinForms main window + system tray
-│   ├── Config/                  # JSON configuration persistence
-│   └── UI/                      # Console UI (Spectre.Console)
-├── DjiRcSimBridge.Console/      # Console entry point
-└── DjiRcSimBridge.GUI/          # GUI entry point (WinForms + system tray)
-```
-
-### Build
-
-```bash
-cd csharp
-# Build everything
-build-and-run.bat
-
-# Or build individual projects
-dotnet build DjiRcSimBridge.slnx -c Release
-```
-
-### Run
-
-**GUI mode** (system tray, live visualization):
-
-```bash
-run-gui.bat
-run-gui.bat -p COM5          # explicit serial port
-```
-
-**Console mode** (terminal, live debug output):
-
-```bash
-run-console.bat
-run-console.bat -p COM5      # explicit serial port
-```
-
-### Publish (Self-Contained Executables)
-
-```bash
-publish.bat
-```
-
-Produces two standalone executables in `csharp/publish/`:
-
-| File | Description |
-|---|---|
-| `console/DjiRcSimBridge.exe` | Console app with live stick/button output |
-| `gui/DjiRcSimBridgeGUI.exe` | GUI app with system tray support |
-
-Both are self-contained (no .NET runtime required). Distribute the `.exe` alongside `ViGEmClient.dll`.
-
-### First Run
-
-On first launch, the GUI version checks for required dependencies:
-- **ViGEm Bus Driver** - if missing, prompts with a download link
-- **ViGEmClient.dll** - must be in the same directory as the executable
-
----
-
-## Python Version
-
-Lightweight scripting version. Good for prototyping and diagnostics.
-
-### Requirements
-
-- Python 3.9+
-- `pip install vgamepad pyserial rich`
-
-### Run
-
-```bash
-cd python
-python main.py                # interactive mode selector
-python main.py --debug        # live controller state output
-python main.py -p COM5        # manual serial port
-```
-
-### Diagnostics
-
-```bash
-cd python
-python capture_buttons2.py    # diagnose button-to-byte mapping
-```
-
----
 
 ## Usage
 
@@ -155,7 +66,7 @@ python capture_buttons2.py    # diagnose button-to-byte mapping
 
 ## Credits
 
-Based on the original [DJI RC-N1 Simulator](https://github.com/ivanyakymenko/DJI_RC-N1_SIMULATOR_FLY_DCL) by Ivan Yakymenko, with protocol references from [mishavoloshchuk/mDjiController](https://github.com/mishavoloshchuk/mDjiController).
+Based on the original [DJI RC-N1 Simulator](https://github.com/IvanYaky/DJI_RC-N1_SIMULATOR_FLY_DCL) by Ivan Yakymenko, with protocol references from [mishavoloshchuk/mDjiController](https://github.com/mishavoloshchuk/mDjiController).
 
 ## License
 
